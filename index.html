@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="oaclient.js"></script> -->
+<script type="text/javascript" src="oaclient.js"></script>
+
+<title>OAClient</title>
+</head>
+
+<body>
+
+<h1>OAClient</h1>
+
+<p>
+This is an early demo of an application for annotating text
+resources on the web.
+</p>
+
+<p>         The         approach         follows        the         <a
+ href="http://en.wikipedia.org/wiki/Linked_data">Linked        Data</a>
+paradigm and the model of the <a
+ href="http://www.openannotation.org/">Open                  Annotation
+Collaboration</a>.   The  application  is  implemented  as  a  set  of
+microservices,    in   accordance    to    the   recommendations    of
+<a href="http://www.interedition.eu/">Interedition</a>.  </p>
+
+<h2>Try it!</h2>
+
+Please note that only plain  text is supported for annotation targets
+so far.
+
+<h3>Step 1</h3>
+The client  works as  a bookmarklet. Please  bookmark (drag  into your
+bookmark bar) the following link:
+
+<!-- adapt the variable _oac_base to your installation-->
+
+<a
+href="javascript:(function(){_oac_base='http://wissenba.ch/oaclient/';_oacjs=document.createElement('script');_oacjs.type='text/javascript';_oacjs.src=_oac_base+'bootstrap.js';document.getElementsByTagName('head')[0].appendChild(_oacjs);})();">OAnnotate</a>
+
+
+<h3>Step 2</h3>
+
+Visit    a    text    file    on    the   web,    for    example    <a
+href="http://www.gutenberg.org/cache/epub/11/pg11.txt">Project Gutenberg's Alice's Adventures in Wonderland</a>.
+
+
+<h3>Step 3</h3>
+
+Load  the  client  by  visiting (clicking)  the bookmark.   Start  annotating  by
+selecting a span of text!
+
+</body> </html>
