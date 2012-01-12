@@ -12,6 +12,9 @@ function _oac_bootstrap(script_list) {
 }
 
 _oac_bootstrap([
+	'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js',
 	'http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js',
+	_oac_base + 'protocol.js',
 	_oac_base + 'ui.js',
+
 ]);

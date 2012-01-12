@@ -4,9 +4,10 @@ OAClient = {
 
 
 YUI({
-		// gallery: 'gallery-2011.05.04-20-03'
-	}).use('node-base', 'node', 'async-queue', 'stylesheet', 'event-base', 
-		   'overlay', 'widget-anim', 'editor-base',function(Y) {
+	// gallery: 'gallery-2011.05.04-20-03'
+}).use	('node-base', 'node', 'node-load','async-queue',
+		 'stylesheet', 'event-base', 
+		 'overlay', 'widget-anim', 'editor-base', 'io',function(Y) {
 
 			   OAClient.wrapPlainText = function(content) {
 				   Y.StyleSheet('pre {display: inline;}');
@@ -39,7 +40,6 @@ YUI({
 			   
 			   OAClient.initGUI = function(){
 
-				   //attach stylesheet
 				   Y.one('head').append('<link href="' + 
 										OAClient.baseURL + 'oaclient.css" rel="stylesheet" type="text/css">');
 
@@ -100,6 +100,12 @@ YUI({
 									});
 			   };
 
-			   OAClient.replacePlainTextDOM();
-			   OAClient.initGUI();
+
+			 OAClient.replacePlainTextDOM();
+			 OAClient.initGUI();
+			 // oacGetAnnotations(function(responseText){
+				 // alert(responseText);
+			 // });
+
+			 oacStoreAnnotationBody ('hello', null);
 		   });
