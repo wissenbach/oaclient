@@ -82,7 +82,7 @@ YUI().use ('io', 'json', function (Y) {
 					success: function(transaction, config) { 
 						var annotationURI = Y.JSON.parse(config.responseText).annotation.uri;
 						console.log('successfully created annotation at '
-									+ rangeStart + ', ' + rangeEnd + ': ' + annotationURIq );
+									+ rangeStart + ', ' + rangeEnd + ': ' + annotationURI );
 						console.log(config);
 					}
 				}
