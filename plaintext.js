@@ -28,7 +28,7 @@ YUI().use('node-base', 'node', 'node-load', 'async-queue', 'stylesheet', 'overla
 		var width = endElement.getX() + endElement.get('width') - x;
 		var height = endElement.getY() + endElement.get('height') - y;
 		
-
+		
 		var overlay = new Y.Overlay({
 			x: x,
 			y: y,
@@ -44,12 +44,21 @@ YUI().use('node-base', 'node', 'node-load', 'async-queue', 'stylesheet', 'overla
 		
 		overlay.render();
 		overlay.show();
-
+		
 		
 	};
 	
 	OAClient.Plaintext = function(){
 
+		/* This function fetches the resource again, which is useful for seeing
+		 the actual offsets*/
+		ajaxReplaceDocument = function() {
+			var new_container = Y.Node.create('<div id="text-container"></div>');
+			var text_container = Y.one('body *');
+			text_container.replace(new_container);
+		};
+
+		/* This function works with what's already in the DOM */
 		wrapPlainText = function(content) {
 			Y.StyleSheet('pre {display: inline;}');
 
@@ -76,11 +85,12 @@ YUI().use('node-base', 'node', 'node-load', 'async-queue', 'stylesheet', 'overla
 		var text_container = Y.one('body *');
 		var content = text_container.getDOMNode().textContent;
 		wrapPlainText(content);
+		// ajaxReplaceDocument();
 		
 	};
 
 	OAClient.Plaintext.prototype.getHandle = function(start, end) {
 		return new OAClient.PlaintextHandle(start, end);
-	}
+	};
 	
 });

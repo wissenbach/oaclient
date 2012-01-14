@@ -100,18 +100,17 @@ YUI().use ('io', 'json', function (Y) {
 		var url = oacServer + '/annotations/query?q=' + targetURI;
 
 		var cfg = {
-			method: 'GET',
 			headers: {
 				'Content-Type' : 'application/json',
 				'Accept' : 'application/json'
 			},
 			on: {
 				success: function(transaction, config) { 
+					console.log('successful query for annotations:');
 					var response = Y.JSON.parse(config.responseText);
 					
 					if (callback)
-						callback();					
-					console.log(response);
+						callback(response);					
 				},
 				failure: function (transaction, config) {
 					console.log('failed to query for annotations!');
