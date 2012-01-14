@@ -2,8 +2,6 @@ YUI().use	('node-base', 'node', 'node-load', 'stylesheet', 'event-base', 'overla
 			 'editor-base', 'io', 'selector-css3', 
 			 function(Y) {
 				 
-
-				 
 				 OAClient.getSelectedSpan = function() {
 					 
 				 }
@@ -51,6 +49,7 @@ YUI().use	('node-base', 'node', 'node-load', 'stylesheet', 'event-base', 'overla
 						 Y.config.win.getSelection().removeAllRanges();
 						 var annotationBody = editor.getContent();
 						 OAClient.storeAnnotationBody (annotationBody, function(bodyURL){
+							 console.log('The new annotation body is at: ' + bodyURL);
 							 OAClient.newAnnotation(bodyURL, location.href, rangeStart, rangeEnd);
 						 });
 						 
@@ -92,4 +91,5 @@ YUI().use	('node-base', 'node', 'node-load', 'stylesheet', 'event-base', 'overla
 				 
 				 OAClient.plaintextSingleton = new OAClient.Plaintext();
 				 OAClient.initGUI();
+				 OAClient.queryForAnnotations(location.href);
 			 });

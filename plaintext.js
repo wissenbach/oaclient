@@ -1,4 +1,4 @@
-YUI().use('node-base', 'node', 'node-load', 'async-queue', 'stylesheet', function(Y) {
+YUI().use('node-base', 'node', 'node-load', 'async-queue', 'stylesheet', 'overlay', function(Y) {
 
 	OAClient.PlaintextHandle = function(start, end) {
 
@@ -22,9 +22,32 @@ YUI().use('node-base', 'node', 'node-load', 'async-queue', 'stylesheet', functio
 			'borderBottom' : '1px solid black',
 			'backgroundColor' : 'yellow'
 		});
+
+		var x = startElement.getX();
+		var y = startElement.getY();
+		var width = endElement.getX() + endElement.get('width') - x;
+		var height = endElement.getY() + endElement.get('height') - y;
+		
+
+		var overlay = new Y.Overlay({
+			x: x,
+			y: y,
+			width: width,
+			height: height,
+			headerContent: '',
+			bodyContent:'<div class="handleOverlay">|</div>',
+			footerContent: '',
+			plugins: [{fn:Y.Plugin.WidgetAnim, duration: 0.5}],
+			visible: false
+			
+		});
+		
+		overlay.render();
+		overlay.show();
+
 		
 	};
-		
+	
 	OAClient.Plaintext = function(){
 
 		wrapPlainText = function(content) {

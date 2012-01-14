@@ -162,6 +162,10 @@ if ( !$url ) {
   if ( strtolower($_SERVER['REQUEST_METHOD']) == 'post' ) {
     curl_setopt( $ch, CURLOPT_POST, true );
     curl_setopt( $ch, CURLOPT_POSTFIELDS, $_POST );
+	/* curl_setopt ( $ch, CURLOPT_HTTPHEADER, array ( */
+	/* 											  'Accept: ' . 'application/json'//$_REQUEST['HTTP_ACCEPT'] */
+	/* 											  )); */
+
   }
   
   if ( $_GET['send_cookies'] ) {
@@ -176,7 +180,7 @@ if ( !$url ) {
     
     curl_setopt( $ch, CURLOPT_COOKIE, $cookie );
   }
-  
+
   curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
   curl_setopt( $ch, CURLOPT_HEADER, true );
   curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
