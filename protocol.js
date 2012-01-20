@@ -1,6 +1,6 @@
 YUI().use ('io', 'json', function (Y) {
 
-	var oacServer = "http://50.56.215.106";
+	var oacServer = "http://demo.interedition.eu/raxld";
 
 	OAClient.proxy = function (url, cfg) {
 		var requestURL = OAClient.baseURL + 'ba-simple-proxy-original.php&url=' + url;
