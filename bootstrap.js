@@ -21,5 +21,5 @@ _oac_bootstrap([
 	_oac_base + 'protocol.js',
 	_oac_base + 'plaintext.js',
 	_oac_base + 'ui.js',
-
+	_oac_base + 'model.js'
 ]);

@@ -91,5 +91,11 @@ YUI().use	('node-base', 'node', 'node-load', 'stylesheet', 'event-base', 'overla
 				 
 				 OAClient.plaintextSingleton = new OAClient.Plaintext();
 				 OAClient.initGUI();
-				 OAClient.queryForAnnotations(location.href);
+				 function insertAnnotations(annotations) {
+					 Y.each(annotations, function(annotation) {
+						 console.log(annotation);
+					 });
+				 }
+
+				 OAClient.queryForAnnotations(location.href, insertAnnotations);
 			 });

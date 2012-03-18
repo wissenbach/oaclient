@@ -162,10 +162,15 @@ if ( !$url ) {
   if ( strtolower($_SERVER['REQUEST_METHOD']) == 'post' ) {
     curl_setopt( $ch, CURLOPT_POST, true );
     curl_setopt( $ch, CURLOPT_POSTFIELDS, $_POST );
-	/* curl_setopt ( $ch, CURLOPT_HTTPHEADER, array ( */
-	/* 											  'Accept: ' . 'application/json'//$_REQUEST['HTTP_ACCEPT'] */
-	/* 											  )); */
+	curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
+												'Accept: ' . $_SERVER['HTTP_ACCEPT'],
+												'Content-Type: ' . $_SERVER['CONTENT_TYPE']
+												  ));
 
+  } else {
+    curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
+												  'Accept: ' . $_SERVER['HTTP_ACCEPT'],
+												  ));
   }
   
   if ( $_GET['send_cookies'] ) {
@@ -186,6 +191,7 @@ if ( !$url ) {
   curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
   
   curl_setopt( $ch, CURLOPT_USERAGENT, $_GET['user_agent'] ? $_GET['user_agent'] : $_SERVER['HTTP_USER_AGENT'] );
+
   
   list( $header, $contents ) = preg_split( '/([\r\n][\r\n])\\1/', curl_exec( $ch ), 2 );
   
