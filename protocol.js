@@ -183,8 +183,10 @@ YUI().use ('io', 'json', 'oop', function (Y) {
 	};
 
 	OAClient.parseConstraint = function(constraint) {
-		var parsed = Y.JSON.parse(constraint);
-		var split = parsed.position.split(',');
+		var position = Y.JSON.parse(constraint).position;
+		if (position.slice(0,5) !== 'char=')
+			return null;
+		var split = position.slice(5).split(',');
 		return {
 			start: parseInt(split[0]),
 			end: parseInt(split[1])

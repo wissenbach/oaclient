@@ -111,32 +111,36 @@ YUI().use	('node-base', 'node', 'node-load', 'stylesheet', 'event-base', 'overla
 					 
 					 OAClient.annotations.after(['add', 'remove', 'reset', '*:change'], 
 												 OAClient.renderAnnotations, OAClient);
-
-					 Y.each(annotations, function(annotation) {
-						 
-						 console.log('Adding annotation: ');
-						 var annotationURI =  annotation.annotation.uri;
-						 console.log(annotation);
-						 OAClient.getAnnotation(annotationURI, function(response) {
-							 console.log(response);
-							 var constraint = 
-								 response.annotation.annotation_target_instances[0].
-								 annotation_target_instance.annotation_constraint.constraint;
-							 var range = OAClient.parseConstraint(constraint);
-							 console.log(range);
-							 var annotationM = new OAClient.AnnotationModel({
-						 		 uri: annotationURI,
-								 posFrom : range.start,
-								 posTo : range.end
-						 	 });
-							 console.log('validating annotation...');
-							 var validationError = annotationM.validate(annotationM.getAttrs());
-							 console.log(validationError);
-							 if (!validationError)
-								 OAClient.annotations.add(annotationM);
+					 // FIXME quick fix: when there are no annotations yet, the
+					 // variable annotations is of type string and has the value '"[]"'
+					 if (typeof annotations !== 'string')
+						 Y.each(annotations, function(annotation) {
+							 
+							 console.log('Adding annotation: ');
+							 var annotationURI =  annotation.annotation.uri;
+							 console.log(annotation);
+							 OAClient.getAnnotation(annotationURI, function(response) {
+								 console.log(response);
+								 var constraint = 
+									 response.annotation.annotation_target_instances[0].
+									 annotation_target_instance.annotation_constraint.constraint;
+								 var range = OAClient.parseConstraint(constraint);
+								 if (range) {
+									 console.log(range);
+									 var annotationM = new OAClient.AnnotationModel({
+						 				 uri: annotationURI,
+										 posFrom : range.start,
+										 posTo : range.end
+						 			 });
+									 console.log('validating annotation...');
+									 var validationError = annotationM.validate(annotationM.getAttrs());
+									 console.log(validationError);
+									 if (!validationError)
+										 OAClient.annotations.add(annotationM);
+								 }
+							 });
+							 
 						 });
-						 
-					 });
 				 }
 				 OAClient.plaintextSingleton = new OAClient.Plaintext(function(){
 					 OAClient.queryForAnnotations(location.href, insertAnnotations);
