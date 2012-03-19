@@ -86,7 +86,7 @@ YUI().use ('io', 'json', 'oop', function (Y) {
 
 		var constraint = ({
 			'checksum' : "",
-			'position' : '' + rangeStart + ',' + rangeEnd,
+			'position' : 'char=' + rangeStart + ',' + rangeEnd,
 			'context' : ""
 		});
 		
