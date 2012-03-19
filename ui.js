@@ -4,7 +4,7 @@ YUI().use	('node-base', 'node', 'node-load', 'stylesheet', 'event-base', 'overla
 				 
 				 OAClient.getSelectedSpan = function() {
 					 
-				 }
+				 };
 
 				 OAClient.AnnotateWidget = function(rangeStart, rangeEnd) {
 					 var anchorId = '#charnum' + rangeEnd;
@@ -50,7 +50,7 @@ YUI().use	('node-base', 'node', 'node-load', 'stylesheet', 'event-base', 'overla
 						 var annotationBody = editor.getContent();
 						 OAClient.storeAnnotationBody (annotationBody, function(bodyURL){
 							 console.log('The new annotation body is at: ' + bodyURL);
-							 OAClient.newAnnotation(bodyURL, location.href, rangeStart, rangeEnd);
+							 OAClient.newAnnotation(bodyURL, location.href, rangeStart, rangeEnd+1);
 						 });
 						 
 						 overlay.destroy(true);
@@ -90,12 +90,16 @@ YUI().use	('node-base', 'node', 'node-load', 'stylesheet', 'event-base', 'overla
 				 };
 				 
 				 OAClient.plaintextSingleton = new OAClient.Plaintext();
+				 OAClient.annotationTarget = 
+					 new OAClient.AnnotationTarget(location.href);
+					 
+				 
 				 OAClient.initGUI();
 				 function insertAnnotations(annotations) {
 					 Y.each(annotations, function(annotation) {
 						 console.log(annotation);
 					 });
 				 }
-
+				 
 				 OAClient.queryForAnnotations(location.href, insertAnnotations);
 			 });
