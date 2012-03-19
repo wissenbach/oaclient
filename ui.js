@@ -104,9 +104,6 @@ YUI().use	('node-base', 'node', 'node-load', 'stylesheet', 'event-base', 'overla
 
 				 };
 				 
-				 OAClient.plaintextSingleton = new OAClient.Plaintext();
-				 
-				 OAClient.initGUI();
 
 				 function insertAnnotations(annotations) {
 
@@ -141,6 +138,11 @@ YUI().use	('node-base', 'node', 'node-load', 'stylesheet', 'event-base', 'overla
 						 
 					 });
 				 }
+				 OAClient.plaintextSingleton = new OAClient.Plaintext(function(){
+					 OAClient.queryForAnnotations(location.href, insertAnnotations);
+				 });
+				 
+				 OAClient.initGUI();
 
-				 OAClient.queryForAnnotations(location.href, insertAnnotations);
+				 
 			 });

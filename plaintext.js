@@ -56,7 +56,7 @@ YUI().use('node-base', 'node', 'node-load', 'async-queue', 'stylesheet', 'overla
 		
 	};
 	
-	OAClient.Plaintext = function(){
+	OAClient.Plaintext = function(callback){
 
 		// store a list of active handles
 		this.handles = [];
@@ -97,6 +97,8 @@ YUI().use('node-base', 'node', 'node-load', 'async-queue', 'stylesheet', 'overla
 				};
 				insert();
 			}
+			if (callback)
+				insertQueue.add(callback);
 			insertQueue.run();
 		};
 
