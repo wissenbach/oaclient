@@ -1,7 +1,7 @@
 YUI().use('node-base', 'node', 'node-load', 'async-queue', 'stylesheet', 'overlay', function(Y) {
 
 	OAClient.PlaintextHandle = function(start, end) {
-
+		console.log("start: " + start + " end " + end);
 		this.start = start;
 		this.end = end;
 		this.destroy = function() {};
@@ -55,9 +55,9 @@ YUI().use('node-base', 'node', 'node-load', 'async-queue', 'stylesheet', 'overla
 		}
 		
 	};
-	
-	OAClient.Plaintext = function(callback){
 
+
+	OAClient.Plaintext = function(callback, targetUri){
 		// store a list of active handles
 		this.handles = [];
 
@@ -67,46 +67,47 @@ YUI().use('node-base', 'node', 'node-load', 'async-queue', 'stylesheet', 'overla
 			});
 			this.handles = [];
 		};
-
-		/* This function fetches the resource again, which is useful for seeing
-		 the actual offsets*/
-		ajaxReplaceDocument = function() {
-			var new_container = Y.Node.create('<div id="text-container"></div>');
-			var text_container = Y.one('body *');
-			text_container.replace(new_container);
-		};
-
-		/* This function works with what's already in the DOM */
-		wrapPlainText = function(content) {
-			Y.StyleSheet('pre {display: inline;}');
-
-			var new_container = Y.Node.create('<div id="text-container"></div>');
-			var text_container = Y.one('body *');
-			text_container.replace(new_container);
-			
-			var insertQueue = new Y.AsyncQueue();
-			for (var i = 0; i < 2000; i++) {
-				function insert(){
-					var insert_index = i;			
-					insertQueue.add(function(){
-						
-						var char_container = new Y.Node.create('<pre id="charnum' + insert_index + '"></pre>');
-						new_container.append(char_container);
-						char_container.set('text', content.charAt(insert_index));
-					});
-				};
-				insert();
-			}
-			if (callback)
-				insertQueue.add(callback);
-			insertQueue.run();
-		};
-
-		var text_container = Y.one('body *');
-		var content = text_container.getDOMNode().textContent;
-		wrapPlainText(content);
-		// ajaxReplaceDocument();
 		
+		OAClient.annotationTarget = 
+			new OAClient.AnnotationTarget(location.href, callback);
+
+//		/* This function fetches the resource again, which is useful for seeing
+//		 the actual offsets*/
+//		ajaxReplaceDocument = function() {
+//			var new_container = Y.Node.create('<div id="text-container"></div>');
+//			var text_container = Y.one('body *');
+//			text_container.replace(new_container);
+//		};
+//
+//		/* This function works with what's already in the DOM */
+//		wrapPlainText = function(content) {
+//			Y.StyleSheet('pre {display: inline;}');
+//
+//			var new_container = Y.Node.create('<div id="text-container"></div>');
+//			var text_container = Y.one('body *');
+//			text_container.replace(new_container);
+//			
+//			var insertQueue = new Y.AsyncQueue();
+//			for (var i = 0; i < 2000; i++) {
+//				function insert(){
+//					var insert_index = i;			
+//					insertQueue.add(function(){
+//						
+//						var char_container = new Y.Node.create('<pre id="charnum' + insert_index + '"></pre>');
+//						new_container.append(char_container);
+//						char_container.set('text', content.charAt(insert_index));
+//					});
+//				};
+//				insert();
+//			}
+//			if (callback)
+//				insertQueue.add(callback);
+//			insertQueue.run();
+//		};
+//
+//		var text_container = Y.one('body *');
+//		var content = text_container.getDOMNode().textContent;
+//		wrapPlainText(content);
 	};
 
 	OAClient.Plaintext.prototype.getHandle = function(start, end) {
