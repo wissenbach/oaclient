@@ -86,7 +86,7 @@ YUI().use ('io', 'json', 'oop', function (Y) {
 
 		var constraint = ({
 			'checksum' : "",
-			'position' : '' + rangeStart + ',' + rangeEnd,
+			'position' : 'char=' + rangeStart + ',' + rangeEnd,
 			'context' : ""
 		});
 		
@@ -131,6 +131,30 @@ YUI().use ('io', 'json', 'oop', function (Y) {
 		//Y.io(url, cfg);
 	};
 
+	OAClient.getAnnotation = function(uri, callback) {
+
+		var cfg = {
+			method: 'GET',
+			headers: {
+				'Accept' : 'application/json'
+			},
+			on: {
+				success: function(transaction, config) {
+					console.log('successfully retrieved annotation:');
+					var response = Y.JSON.parse(config.responseText);
+					
+					if (callback)
+						callback(response);					
+				},
+				failure: function (transaction, config) {
+					console.log('failed to retrieve annotation!');
+				}
+			}
+		};
+		OAClient.proxy(uri, cfg);
+		//Y.io(url, cfg);
+	};
+
 	OAClient.queryForAnnotations = function(targetURI, callback) {
 		var encodedTargetURI = window.encodeURIComponent(targetURI);
 		var url = oacServer + '/annotations/query?q=' + encodedTargetURI;
@@ -156,5 +180,14 @@ YUI().use ('io', 'json', 'oop', function (Y) {
 		};
 		OAClient.proxy(url, cfg);
 		//Y.io(url, cfg);
-	}
+	};
+
+	OAClient.parseConstraint = function(constraint) {
+		var parsed = Y.JSON.parse(constraint);
+		var split = parsed.position.split(',');
+		return {
+			start: parseInt(split[0]),
+			end: parseInt(split[1])
+		};
+	};
 });

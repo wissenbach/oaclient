@@ -1,8 +1,8 @@
 YUI().use('node', 'async-queue', 'stylesheet', 'json', function(Y) {
 	
-	OAClient.AnnotationTarget = function(targetUri) {
+	OAClient.AnnotationTarget = function(targetUri, callback) {
 		
-		function loadTarget(targetUri, callback) {
+		function loadTarget(targetUri, loadTargetHandler) {
 			var cfg = {
 					method: 'GET',
 					headers: {
@@ -14,8 +14,8 @@ YUI().use('node', 'async-queue', 'stylesheet', 'json', function(Y) {
 							console.log('successful loaded the anno target:');
 							var response = Y.JSON.parse(config.responseText);
 							
-							if (callback)
-								callback(response);					
+							if (loadTargetHandler)
+								loadTargetHandler(response);					
 						},
 						failure: function (transaction, config) {
 							console.log('failed to load target!');
@@ -49,6 +49,9 @@ YUI().use('node', 'async-queue', 'stylesheet', 'json', function(Y) {
 					});
 				};
 				insert();
+			}
+			if (callback) {
+				insertQueue.add(callback);
 			}
 			insertQueue.run();
 		};

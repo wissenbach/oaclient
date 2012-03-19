@@ -88,18 +88,60 @@ YUI().use	('node-base', 'node', 'node-load', 'stylesheet', 'event-base', 'overla
 							 }});
 					 });
 				 };
-				 
-				 OAClient.plaintextSingleton = new OAClient.Plaintext();
-				 OAClient.annotationTarget = 
-					 new OAClient.AnnotationTarget(location.href);
+
+				 OAClient.renderAnnotations = function() {
 					 
+					 console.log('Rendering annotations.');
+					 
+					 OAClient.plaintextSingleton.clearHandles();
+					 Y.each (OAClient.annotations, function(annotation) {
+						 OAClient.plaintextSingleton.getHandle(
+							 annotation.get('posFrom'),
+							 annotation.get('posTo')
+						 )
+					 });
+
+
+				 };
 				 
-				 OAClient.initGUI();
 				 function insertAnnotations(annotations) {
+
+					 OAClient.annotations = new OAClient.AnnotationList();
+					 
+					 OAClient.annotations.after(['add', 'remove', 'reset', '*:change'], 
+												 OAClient.renderAnnotations, OAClient);
+
 					 Y.each(annotations, function(annotation) {
+						 
+						 console.log('Adding annotation: ');
+						 var annotationURI =  annotation.annotation.uri;
 						 console.log(annotation);
+						 OAClient.getAnnotation(annotationURI, function(response) {
+							 console.log(response);
+							 var constraint = 
+								 response.annotation.annotation_target_instances[0].
+								 annotation_target_instance.annotation_constraint.constraint;
+							 var range = OAClient.parseConstraint(constraint);
+							 console.log(range);
+							 var annotationM = new OAClient.AnnotationModel({
+						 		 uri: annotationURI,
+								 posFrom : range.start,
+								 posTo : range.end
+						 	 });
+							 console.log('validating annotation...');
+							 var validationError = annotationM.validate(annotationM.getAttrs());
+							 console.log(validationError);
+							 if (!validationError)
+								 OAClient.annotations.add(annotationM);
+						 });
+						 
 					 });
 				 }
+
+				 OAClient.plaintextSingleton = new OAClient.Plaintext(function(){
+					 OAClient.queryForAnnotations(location.href, insertAnnotations);
+				 });
 				 
-				 OAClient.queryForAnnotations(location.href, insertAnnotations);
+				 OAClient.initGUI();
+
 			 });

@@ -161,7 +161,8 @@ if ( !$url ) {
   
   if ( strtolower($_SERVER['REQUEST_METHOD']) == 'post' ) {
     curl_setopt( $ch, CURLOPT_POST, true );
-    curl_setopt( $ch, CURLOPT_POSTFIELDS, $_POST );
+    //curl_setopt( $ch, CURLOPT_POSTFIELDS, $_POST );
+    curl_setopt( $ch, CURLOPT_POSTFIELDS, $HTTP_RAW_POST_DATA );
 	curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
 												'Accept: ' . $_SERVER['HTTP_ACCEPT'],
 												'Content-Type: ' . $_SERVER['CONTENT_TYPE']
