@@ -129,7 +129,7 @@ YUI().use	('node-base', 'node', 'node-load', 'stylesheet', 'event-base', 'overla
 									 var annotationM = new OAClient.AnnotationModel({
 						 				 uri: annotationURI,
 										 posFrom : range.start,
-										 posTo : range.end
+										 posTo : range.end - 1
 						 			 });
 									 console.log('validating annotation...');
 									 var validationError = annotationM.validate(annotationM.getAttrs());
