@@ -34,26 +34,53 @@ YUI().use('node', 'async-queue', 'stylesheet', 'json', function(Y) {
 
 			var new_container = Y.Node.create('<div id="text-container"></div>');
 			var text_container = Y.one('body *');
-			text_container.replace(new_container);
 			
-			var insertQueue = new Y.AsyncQueue();
-			for (var i = 0; i < 2000; i++) {
-				function insert(){
-					var insert_index = i;			
-					insertQueue.add(function(){
-						var char_container = 
-							new Y.Node.create(
-								'<pre id="charnum' + insert_index + '"></pre>');
-						new_container.append(char_container);
-						char_container.set('text', content.charAt(insert_index));
-					});
-				};
-				insert();
+			// var insertQueue = new Y.AsyncQueue();
+			// for (var i = 0; i < 2000; i++) {
+
+			// 	function insert(){
+			// 		var insert_index = i;			
+			// 		insertQueue.add(function(){
+			// 			var char_container = 
+			// 				new Y.Node.create(
+			// 					'<pre id="charnum' + insert_index + '"></pre>');
+			// 			new_container.append(char_container);
+			// 			char_container.set('text', content.charAt(insert_index));
+			// 		});
+			// 	};
+			// 	insert();
+			// }
+
+			// insertQueue.add(function() {
+			// 	text_container.replace(new_container);
+			// });
+			
+			// if (callback) {
+			// 	insertQueue.add(callback);
+			// }
+			// insertQueue.run();
+
+			text_container.setStyles({color: 'blue'});
+
+			var htmlReplacement = '';
+			var processLimit = 2000; // TODO way too inefficient for content.length
+			for (var i = 0; i < processLimit; i++) {
+				var insChar = content.charAt(i);
+				//console.log(insChar + ' ' + insChar.charCodeAt(0));
+				if (insChar.charCodeAt(0) === 10)
+					htmlReplacement = htmlReplacement.concat('<br id="charnum',i,'"/>');
+				else
+					htmlReplacement = htmlReplacement.concat('<pre id="charnum',i,'">',insChar,'</pre>');
+				
 			}
-			if (callback) {
-				insertQueue.add(callback);
-			}
-			insertQueue.run();
+			new_container.getDOMNode().innerHTML = htmlReplacement;
+			//new_container.append(htmlReplacement);
+			text_container.replace(new_container);
+
+			new_container.setStyles({color: 'black'});
+
+			if (callback) 
+				callback();
 		};
 		
 		function handleLoadedTarget(content) {

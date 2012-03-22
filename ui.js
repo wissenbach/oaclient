@@ -23,8 +23,7 @@ YUI().use	('node-base', 'node', 'node-load', 'stylesheet', 'event-base', 'overla
 						 preventOverlap: true,
 						 constrain: true,
 						 plugins: [{fn:Y.Plugin.WidgetAnim, duration: 0.5}],
-						 visible: false
-						 
+						 visible: false,						 
 					 });
 					 
 					 overlay.render();
